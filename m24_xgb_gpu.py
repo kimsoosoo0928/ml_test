@@ -1,14 +1,15 @@
 from sklearn import datasets
-from xgboost import XGBRegressor,XGBClassifier
-from sklearn.datasets import load_boston, load_diabetes, load_iris, load_wine, load_breast_cancer
+from xgboost import XGBRegressor
+from sklearn.datasets import load_boston
 from sklearn.model_selection import train_test_split
 import numpy as np
 from sklearn.metrics import r2_score
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+import matplotlib.pyplot as plt
 
 # 1. data
 
-datasets = load_breast_cancer()
+datasets = load_boston()
 x = datasets['data']
 y = datasets['target']
 
@@ -23,19 +24,17 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
 # 2. model 
-model = XGBClassifier(n_estimators = 100, learning_rate=0.1, n_jobs=1)
+model = XGBRegressor(n_estimators = 10000, learning_rate=0.01,
+                    tree_method = 'gpu_hist', gpu_id = 0
+                        )
 
 # 3. fit
-model.fit(x_train, y_train, verbose=1, eval_metric='logloss',
-                eval_set=[(x_train, y_train), (x_test, y_test)]) # fit set & val set
+import time
+start_time = time.time()
+model.fit(x_train, y_train, verbose=1, eval_metric='rmse', # ['mae','logloss']
+                eval_set=[(x_train, y_train), (x_test, y_test)]) 
+print("total time : ", time.time() - start_time)
 
-# 4. eval
-results = model.score(x_test, y_test)
-print("result : ", results)
 
-y_pred = model.predict(x_test)
-r2 = r2_score(y_test, y_pred)
-print("r2 score : ", r2)
 
-'''
-'''
+

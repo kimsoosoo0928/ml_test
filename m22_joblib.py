@@ -24,12 +24,12 @@ x_train = scaler.transform(x_train)
 x_test = scaler.transform(x_test)
 
 # 2. model 
-model = XGBRegressor(n_estimators = 100, learning_rate=0.1, n_jobs=1)
+model = XGBRegressor(n_estimators = 1000, learning_rate=0.1, n_jobs=1)
 
 # 3. fit
 model.fit(x_train, y_train, verbose=1, eval_metric='rmse', # ['mae','logloss']
-                eval_set=[(x_train, y_train), (x_test, y_test)]) # fit set & val set
-
+                eval_set=[(x_train, y_train), (x_test, y_test)],
+                early_stopping_rounds=10) 
 # 4. eval
 results = model.score(x_test, y_test)
 print("result : ", results)
@@ -52,21 +52,9 @@ print("=======================================")
 hist = model.evals_result()
 print(hist)
 
-epochs = len(results['validation_0']['logloss'])
-x_axis = range(0, epochs)
+# 저장
+# import pickle
+# pickle.dump(model, open('./_save/xgb_save/m21_pickle.dat', 'wb'))
 
-fig, ax = plt.subplots()
-ax.plot(x_axis, results['validation_0']['logloss'], label='Train')
-ax.plot(x_axis, results['validation_1']['logloss'], label='Test')
-ax.legend()
-plt.ylabel('Log Loss')
-plt.title('XGBoost Log Loss')
-# plt.show()
-
-fig, ax = plt.subplots()
-ax.plot(x_axis, results['validation_0']['rmse'], label='Train')
-ax.plot(x_axis, results['validation_1']['rmse'], label='Test')
-ax.legend()
-plt.ylabel('Rmse')
-plt.title('XGBoost RMSE')
-plt.show()
+import joblib
+joblib.dump(model, './_save/xgb_save/m21.joblib.dat')
