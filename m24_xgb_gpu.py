@@ -25,7 +25,8 @@ x_test = scaler.transform(x_test)
 
 # 2. model 
 model = XGBRegressor(n_estimators = 10000, learning_rate=0.01,
-                    tree_method = 'gpu_hist', gpu_id = 0
+                    tree_method = 'gpu_hist', gpu_id = 0,
+                    predictor='gpu_predictor', # cpu_predictor
                         )
 
 # 3. fit
