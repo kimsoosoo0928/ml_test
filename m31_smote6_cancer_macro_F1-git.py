@@ -109,7 +109,7 @@ print("model_best_score_smote   :", score2)
 print("f1_score_default:", f1)
 print("f1_score_smote  :", f12)
 
-# model_best_score_default : 0.9336734693877551
-# model_best_score_smote   : 0.9285714285714286
-# f1_score_default: 0.5871226524850518
-# f1_score_smote  : 0.6102291546510082
+# model_best_score_default : 0.9210526315789473
+# model_best_score_smote   : 0.9385964912280702
+# f1_score_default: 0.9117571170551303
+# f1_score_smote  : 0.9322062696457396
