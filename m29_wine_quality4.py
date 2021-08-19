@@ -60,4 +60,6 @@ model.fit(x_train, y_train)
 
 score = model.score(x_test, y_test)
 
-print("acc : ", score) # acc :  0.6816326530612244
+print("acc : ", score) 
+# original acc :  0.6816326530612244
+# edit acc :  0.9469387755102041
